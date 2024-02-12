@@ -1,6 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { twMerge } from "tailwind-merge";
+import toast from "react-hot-toast";
 import { RxCaretLeft, RxCaretRight } from "react-icons/rx";
 import { HiHome } from "react-icons/hi";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
@@ -27,7 +28,9 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
     router.refresh();
 
     if (error) {
-      console.log(error);
+      toast.error(error.message);
+    } else {
+      toast.success("Logged out");
     }
   };
   return (
@@ -65,9 +68,9 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
             <div className="flex gap-x-4 items-center ">
               <Button
                 onClick={HandleLogout}
-                className="bg-white px-6 py-2 text-black"
+                className="px-6 bg-white text-black py-2"
               >
-                Log out
+                Logout
               </Button>
               <Button
                 onClick={() => router.push("/account")}
