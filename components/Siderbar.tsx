@@ -14,7 +14,7 @@ interface SidebarProps {
   songs: Song[];
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ children,songs }) => {
+const Sidebar: React.FC<SidebarProps> = ({ children, songs }) => {
   const pathname = usePathname();
   const routes = useMemo(
     () => [
@@ -35,7 +35,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children,songs }) => {
   );
   return (
     <aside className="flex h-full">
-      <div className="hidden md:flex flex-col gap-y-2 bg-black h-full w-[300px] p-2">
+      <div className="hidden md:flex flex-col gap-y-2 bg-black h-full w-[350px] p-2">
         <Box>
           <div className="flex flex-col gap-y-4 px-5 py-4">
             {routes.map((item) => (
@@ -44,7 +44,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children,songs }) => {
           </div>
         </Box>
         <Box className="overflow-y-auto h-[80vh]">
-          <Library songs={songs}/>
+          <Library songs={songs} />
         </Box>
       </div>
       <main className="w-full flex-1 overflow-y-auto py-2">{children}</main>
