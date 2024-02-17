@@ -37,7 +37,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children, songs }) => {
     [pathname]
   );
   return (
-    <aside className={twMerge(`flex h-full`, player.activeId && "h-(calc(100vh-80px)")}>
+    <aside className={twMerge(`flex h-full fixed`, player.activeId && "h-(calc(100vh-80px)")}>
       <div className="hidden md:flex flex-col gap-y-2 bg-black h-full w-[350px] p-2">
         <Box>
           <div className="flex flex-col gap-y-4 px-5 py-4">

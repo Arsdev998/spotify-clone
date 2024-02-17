@@ -25,6 +25,7 @@ const Slider: React.FC<SlideProps> = ({
         touch-none 
         w-full 
         h-10
+       
       "
       defaultValue={[1]}
       value={[value]}
