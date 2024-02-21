@@ -10,9 +10,9 @@ export default async function Home() {
   return (
     <div
       className="
-     h-full w-full rounded-lg overflow-hidden overflow-y-auto"
+     h-full w-full rounded-lg overflow-hidden overflow-y-auto bg-neutral-900"
     >
-      <Header className="sticky bg-gradient-to-b from-emerald-800 to-black top-0 z-10">
+      <Header className="sticky bg-gradient-to-b from-emerald-800 neutral top-0 z-10">
         <div className=""></div>
       </Header>
       <div className="mb-2 px-6">

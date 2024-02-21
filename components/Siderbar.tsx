@@ -18,7 +18,7 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ children, songs }) => {
   const pathname = usePathname();
-  const player =  usePlayer();
+  const player = usePlayer();
   const routes = useMemo(
     () => [
       {
@@ -37,7 +37,12 @@ const Sidebar: React.FC<SidebarProps> = ({ children, songs }) => {
     [pathname]
   );
   return (
-    <aside className={twMerge(`flex h-full fixed`, player.activeId && "h-(calc(100vh-80px)")}>
+    <aside
+      className={twMerge(
+        `flex h-full fixed`,
+        player.activeId && "h-(calc(100vh-80px)"
+      )}
+    >
       <div className="hidden md:flex flex-col gap-y-2 bg-black h-full w-[350px] p-2">
         <Box>
           <div className="flex flex-col gap-y-4 px-5 py-4">
@@ -46,11 +51,11 @@ const Sidebar: React.FC<SidebarProps> = ({ children, songs }) => {
             ))}
           </div>
         </Box>
-        <Box className="overflow-y-auto h-[80vh]">
+        <Box className="overflow-y-auto h-full">
           <Library songs={songs} />
         </Box>
       </div>
-      <main className="w-full flex-1 overflow-y-auto py-2">{children}</main>
+      <main className="w-full flex-1 overflow-y-auto  py-2">{children}</main>
     </aside>
   );
 };

@@ -8,3 +8,6 @@ body:root {
   background-color: black;
   color-scheme: dark;
 }
+::-webkit-scrollbar {
+  display: none;
+}
