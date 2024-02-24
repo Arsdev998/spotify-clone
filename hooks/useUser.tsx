@@ -1,17 +1,18 @@
-import { userDetails } from "@/type";
-import { User } from "@supabase/auth-helpers-nextjs";
+import { useEffect, useState, createContext, useContext } from 'react';
 import {
-  useSessionContext,
   useUser as useSupaUser,
-} from "@supabase/auth-helpers-react";
-import { createContext, useContext, useEffect, useState } from "react";
+  useSessionContext,
+  User
+} from '@supabase/auth-helpers-react';
+
+import { UserDetails, Subscription } from '@/type';
 
 type UserContextType = {
   accessToken: string | null;
   user: User | null;
-  userDetails: userDetails | null;
+  userDetails: UserDetails | null;
   isLoading: boolean;
-  // subscription: Subscription | null;
+  subscription: Subscription | null;
 };
 
 export const UserContext = createContext<UserContextType | undefined>(
@@ -26,60 +27,56 @@ export const MyUserContextProvider = (props: Props) => {
   const {
     session,
     isLoading: isLoadingUser,
-    supabaseClient: supabase,
+    supabaseClient: supabase
   } = useSessionContext();
   const user = useSupaUser();
-
   const accessToken = session?.access_token ?? null;
-  const [isLoadingData, setIsLoadingData] = useState(false);
-  const [userDetails, setUserDetails] = useState<userDetails | null>(null);
-  // const [subscription, setSubscription] = useState<Subscription | null>(null);
+  const [isLoadingData, setIsloadingData] = useState(false);
+  const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
+  const [subscription, setSubscription] = useState<Subscription | null>(null);
 
-  const getUserDetails = () => supabase.from("users").select("*").single();
-  // const getSubscription = () =>
-  //   supabase
-  //     .from("subscription")
-  //     .select(`*, prices(*, products(*))`)
-  //     .in("status", ["trialing", "active"])
-  //     .single();
+  const getUserDetails = () => supabase.from('users').select('*').single();
+  const getSubscription = () =>
+    supabase
+      .from('subscriptions')
+      .select('*, prices(*, products(*))')
+      .in('status', ['trialing', 'active'])
+      .single();
 
-  // useEffect(() => {
-  //   if (user && !isLoadingData && !userDetails && !subscription) {
-  //     setIsLoadingData(true);
+  useEffect(() => {
+    if (user && !isLoadingData && !userDetails && !subscription) {
+      setIsloadingData(true);
+      Promise.allSettled([getUserDetails(), getSubscription()]).then(
+        (results) => {
+          const userDetailsPromise = results[0];
+          const subscriptionPromise = results[1];
 
-  //     Promise.allSettled([getUserDetails(), getSubscription()]).then(
-  //       (results) => {
-  //         const userDetailsPromise = results[0];
-  //         const subscriptionPromise = results[1];
+          if (userDetailsPromise.status === 'fulfilled')
+            setUserDetails(userDetailsPromise.value.data as UserDetails);
 
-  //         if (userDetailsPromise.status === "fulfilled") {
-  //           setUserDetails(userDetailsPromise.value.data as userDetails);
-  //         }
+          if (subscriptionPromise.status === 'fulfilled')
+            setSubscription(subscriptionPromise.value.data as Subscription);
 
-  //         if (subscriptionPromise.status === "fulfilled") {
-  //           setSubscription(subscriptionPromise.value.data as Subscription);
-  //         }
-
-  //         setIsLoadingData(false);
-  //       }
-  //     );
-  //   } else if (!user && !isLoadingUser && !userDetails) {
-  //     setUserDetails(null);
-  //     setSubscription(null);
-  //   }
-  // }, [user, isLoadingUser]);
+          setIsloadingData(false);
+        }
+      );
+    } else if (!user && !isLoadingUser && !isLoadingData) {
+      setUserDetails(null);
+      setSubscription(null);
+    }
+  }, [user, isLoadingUser]);
 
   const value = {
     accessToken,
     user,
     userDetails,
     isLoading: isLoadingUser || isLoadingData,
-    // subscription,
+    subscription
   };
 
   return <UserContext.Provider value={value} {...props} />;
-
 };
+
 export const useUser = () => {
   const context = useContext(UserContext);
   if (context === undefined) {
