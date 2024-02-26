@@ -14,9 +14,8 @@ export async function POST(
   try {
     const supabase = createRouteHandlerClient({ 
       cookies
-      });      const {
-      data: { user }
-    } = await supabase.auth.getUser();
+      });      
+      const {data: { user }} = await supabase.auth.getUser();
 
     const customer = await createOrRetrieveCustomer({
       uuid: user?.id || '',
@@ -36,12 +35,9 @@ export async function POST(
       mode: 'subscription',
       allow_promotion_codes: true,
       subscription_data: {
-        trial_from_plan: true,
-        metadata
-      },
-      success_url: `${getURL()}/account`,
-      cancel_url: `${getURL()}/`
-    });
+        
+      }
+    })
 
     return NextResponse.json({ sessionId: session.id });
   } catch (err: any) {

@@ -66,6 +66,7 @@ export interface Subscription {
   ended_at?: string;
   cancel_at?: string;
   canceled_at?: string;
+  trial_from_plan?: string;
   trial_start?: string;
   trial_end?: string;
   prices?: Price;
