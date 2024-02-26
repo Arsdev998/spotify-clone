@@ -35,7 +35,9 @@ const Liked = async () => {
             <div className="relative h-32 w-32 lg:h-44 lg:w-44">
               <Image
                 className="object-cover"
+                priority
                 fill
+                sizes="(50vw, 100vw)"
                 src="/images/liked.png"
                 alt="Playlist"
               />
