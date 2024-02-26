@@ -145,9 +145,6 @@ const manageSubscriptionStatusChange = async (
       ended_at: subscription.ended_at
         ? toDateTime(subscription.ended_at).toISOString()
         : null,
-      trial_from_plan: subscription.trial_from_plan
-       ? toDateTime(subscription.trial_from_plan).toISOString() 
-       : null,
       trial_start: subscription.trial_start
         ? toDateTime(subscription.trial_start).toISOString()
         : null,
