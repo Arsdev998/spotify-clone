@@ -4,12 +4,13 @@ import AccountContent from "./components/AccountContent";
 
 const Account = () => {
   return (
-    <div 
+    <div
       className="
         bg-neutral-900 
         rounded-lg 
         h-full 
         w-full 
+        sm:w-[1180px]
         overflow-hidden 
         overflow-y-auto
       "
@@ -23,7 +24,7 @@ const Account = () => {
       </Header>
       <AccountContent />
     </div>
-  )
-}
+  );
+};
 
 export default Account;

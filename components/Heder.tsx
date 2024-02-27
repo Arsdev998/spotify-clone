@@ -10,6 +10,7 @@ import useAuthModal from "@/hooks/useAuthModal";
 import { useUser } from "@/hooks/useUser";
 import Button from "./Button";
 import { FaUser } from "react-icons/fa";
+import usePlayer from "@/hooks/usePlayer";
 
 interface HeaderProps {
   children: React.ReactNode;
@@ -19,12 +20,14 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ children, className }) => {
   const authModal = useAuthModal();
   const router = useRouter();
+  const player = usePlayer();
   const supabaseClient = useSupabaseClient();
   const { user } = useUser();
 
   const HandleLogout = async () => {
     const { error } = await supabaseClient.auth.signOut();
     //
+    player.reset();
     router.refresh();
 
     if (error) {
